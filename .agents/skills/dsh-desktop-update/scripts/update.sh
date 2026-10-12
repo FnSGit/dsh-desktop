@@ -83,7 +83,7 @@ bash "$PKG_SCRIPT" --install
 
 # ── 启动验证 ────────────────────────────────────────────────────────────
 if [ "$START" = true ]; then
-  echo "▶ 启动并验证（等待 Web Host 监听 $PORT，最长 60s）..."
+  echo "▶ 启动并验证（等待 Web Host 监听 ${PORT}，最长 60s）..."
   open "/Applications/DSH Desktop.app"
   OK=false
   for i in $(seq 1 20); do
