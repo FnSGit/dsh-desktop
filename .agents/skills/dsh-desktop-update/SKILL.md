@@ -36,6 +36,7 @@ bash .agents/skills/dsh-desktop-update/scripts/update.sh --no-start
 
 ## 约定与已知行为
 
+- **安装方式约定（2026-10-12）**：本机更新一律走本 skill 的本地打包安装流程（pull → install → build → 打包覆盖 /Applications）；不再使用官方 GitHub Release 的正式版安装包。除非用户明确要求，不要提议下载 Release DMG。
 - **market 刷新提交**：`yarn build` 里 market:prepare 更新 dshmarket 版本（package.json + yarn.lock）。更新完检查 `git status`，有刷新就提交（历史惯例：`chore: 刷新 dshmarket 至 x.y.z（market:prepare）`）。
 - **远端无新提交不是错误**：本地领先未推送提交时脚本跳过 pull 照常重建——用于改了本地桌面代码后重新打包。
 - **43120 未监听的误报**：在 app 设置里改过 Web 端口时验证会超时报警，属预期；端口默认 43120。
