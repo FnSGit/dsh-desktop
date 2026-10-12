@@ -54,6 +54,12 @@ DSH_ELECTRON_BUILDER_TRAVERSAL_ONLY=1 CSC_IDENTITY_AUTO_DISCOVERY=false \
 echo "▶ smoke 验证..."
 DSH_MAC_SMOKE_ARCH="$VERIFY_ARCH" node scripts/verify-mac-smoke.ts "$OUT"
 
+# smoke 启动过 dist 产物 app，会被 LaunchServices 注册成第二个 Launchpad 图标；验证完立即注销（未注册时静默忽略）
+LSREG="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister"
+while IFS= read -r -d '' app; do
+  "$LSREG" -u "$app" 2>/dev/null || true
+done < <(find "$OUT" -maxdepth 4 -name "DSH Desktop.app" -print0)
+
 DMG=$(ls "$OUT"/*.dmg | head -1)
 echo "✅ 打包完成: $DMG ($(du -h "$DMG" | cut -f1))"
 

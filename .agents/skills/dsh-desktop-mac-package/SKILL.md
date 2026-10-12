@@ -33,7 +33,7 @@ corepack yarn --cwd /path/to/dsh-desktop workspace dsh-plugin-desktop exec bash 
 bash .agents/skills/dsh-desktop-mac-package/scripts/package-mac-local.sh --install
 ```
 
-脚本封装：环境检查 → electron-builder（icon 用 `.icns`）→ smoke 验证 → 可选安装。产物 `dsh-plugin-desktop/dist/mac-smoke/DSH Desktop-<版本>-arm64.dmg`。
+脚本封装：环境检查 → electron-builder（icon 用 `.icns`）→ smoke 验证 → 可选安装。产物 `dsh-plugin-desktop/dist/mac-smoke/DSH Desktop-<版本>-arm64.dmg`。smoke 验证会启动 dist 产物 app，一启动就被 LaunchServices 注册成第二个 Launchpad 图标（2026-10-12 事故），脚本会在验证后自动 `lsregister -u` 注销 dist 内产物。
 
 官方 `corepack yarn dist:mac-smoke` 需要 Xcode 26 的 `actool`（`build.mac.icon` 指向 Icon Composer 新格式 `.app-icon.icon`）。无 Xcode 26 的机器走上面的绕过路径：`--config.mac.icon=build/app-icon.icns`（仓库已备 `.icns`）+ 手动调 electron-builder，环境变量：
 
@@ -45,7 +45,7 @@ node node_modules/electron-builder/cli.js --mac dmg --arm64 --publish never \
   --config.mac.icon=build/app-icon.icns --config.directories.output=<绝对路径>/dist/mac-smoke
 ```
 
-验证：`DSH_MAC_SMOKE_ARCH=arm64 node scripts/verify-mac-smoke.ts <dist 目录>`（verifier 默认校验 universal 双架构，单架构打包必须带此变量，否则假失败）。
+验证：`DSH_MAC_SMOKE_ARCH=arm64 node scripts/verify-mac-smoke.ts <dist 目录>`（verifier 默认校验 universal 双架构，单架构打包必须带此变量，否则假失败）。手动跑 verifier 时，验证完同样要注销产物：`lsregister -u "<dist 目录>/mac-arm64/DSH Desktop.app"`（lsregister 位于 CoreServices.framework 的 LaunchServices.framework/Support 下），否则 Launchpad 多一个图标。
 
 ## 安装
 
