@@ -33,7 +33,7 @@ corepack yarn --cwd /path/to/dsh-desktop workspace dsh-plugin-desktop exec bash 
 bash .agents/skills/dsh-desktop-mac-package/scripts/package-mac-local.sh --install
 ```
 
-脚本封装：环境检查 → electron-builder（icon 用 `.icns`）→ smoke 验证 → 可选安装。产物 `dsh-plugin-desktop/dist/mac-smoke/DSH Desktop-<版本>-arm64.dmg`。smoke 验证会启动 dist 产物 app，一启动就被 LaunchServices 注册成第二个 Launchpad 图标（2026-10-12 事故），脚本会在验证后自动 `lsregister -u` 注销 dist 内产物。
+脚本封装：环境检查 → electron-builder（icon 用 `.icns`）→ smoke 验证 → 可选安装。产物 `dsh-plugin-desktop/dist/mac-smoke/DSH Desktop-<版本>-arm64.dmg`。smoke 验证会启动 dist 产物 app，被 LaunchServices 注册成第二个 Launchpad 图标（2026-10-12 事故），脚本在验证后自动杀掉该实例并删除 `dist/mac-smoke/mac-arm64/` 解包产物。**关键教训（2026-10-15 补）**：仅 `lsregister -u` 注销不够——verifier 启动的 dist 实例不会自行退出，运行中的 app 会反复向 LaunchServices 重新注册，导致注销不粘、重启后 Launchpad 图标复现；必须先杀实例再删解包 app。若 dist 里那份 app 正是当前运行实例（`lsof -nP -iTCP:43120` 的进程路径可查证），删除后需从 `/Applications` 重新启动。
 
 官方 `corepack yarn dist:mac-smoke` 需要 Xcode 26 的 `actool`（`build.mac.icon` 指向 Icon Composer 新格式 `.app-icon.icon`）。无 Xcode 26 的机器走上面的绕过路径：`--config.mac.icon=build/app-icon.icns`（仓库已备 `.icns`）+ 手动调 electron-builder，环境变量：
 
@@ -45,7 +45,7 @@ node node_modules/electron-builder/cli.js --mac dmg --arm64 --publish never \
   --config.mac.icon=build/app-icon.icns --config.directories.output=<绝对路径>/dist/mac-smoke
 ```
 
-验证：`DSH_MAC_SMOKE_ARCH=arm64 node scripts/verify-mac-smoke.ts <dist 目录>`（verifier 默认校验 universal 双架构，单架构打包必须带此变量，否则假失败）。手动跑 verifier 时，验证完同样要注销产物：`lsregister -u "<dist 目录>/mac-arm64/DSH Desktop.app"`（lsregister 位于 CoreServices.framework 的 LaunchServices.framework/Support 下），否则 Launchpad 多一个图标。
+验证：`DSH_MAC_SMOKE_ARCH=arm64 node scripts/verify-mac-smoke.ts <dist 目录>`（verifier 默认校验 universal 双架构，单架构打包必须带此变量，否则假失败）。手动跑 verifier 后必须：`pkill -f "DSH Desktop.app/Contents/MacOS/DSH"` 杀掉验证启动的实例，再 `rm -rf "<dist 目录>/mac-arm64"`，否则运行中的实例反复重新注册，Launchpad 会一直多一个图标（lsregister -u 对运行中 app 不粘）。
 
 ## 安装
 
