@@ -26,3 +26,4 @@ dsh-plugin-desktop-beta/.desktop-build/
 .local-plugins/
 local-plugins/
 .agents/skills/installing-dsh-plugins/
+dsh-plugin-desktop/.node-fetch-proxy.mjs

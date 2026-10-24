@@ -33,7 +33,24 @@ done
 # 3. 构建产物：desktop-cli 必须在位（未构建先跑 corepack yarn build）
 [ -f "$DESKTOP/lib/desktop-cli.js" ] || { echo "❌ 未构建，先执行 corepack yarn build"; exit 1; }
 
+# 3.5 Runtime payload（2026-10-24 起新版打包必需）：electron-builder 的 extraResources
+# 会校验 .desktop-build/runtime/<arch>/primary-runtime/runtime.json。本地脚本直接调
+# electron-builder CLI 绕过了 package-mac.ts 的 prepareDesktopInterpreters，必须手动补这一步。
+# node 内置 fetch(undici) 不读 HTTP_PROXY 环境变量，下载 GitHub release 资产需显式代理预加载。
+PROXY_IMPORT="$DESKTOP/.node-fetch-proxy.mjs"
+if [ ! -f "$PROXY_IMPORT" ]; then
+  cat > "$PROXY_IMPORT" <<'MJS'
+import { setGlobalDispatcher, ProxyAgent } from 'undici'
+const proxy = process.env.HTTPS_PROXY || process.env.HTTP_PROXY
+if (proxy) {
+  setGlobalDispatcher(new ProxyAgent(proxy))
+  console.log(`[proxy] fetch -> ${proxy}`)
+}
+MJS
+fi
+echo "▶ 准备 runtime payload（Python/Node/Office，首次较慢）..."
 cd "$DESKTOP"
+node --import "$PROXY_IMPORT" scripts/prepare-runtime.ts
 if [ "$ARCH" = "universal" ]; then
   EB_ARCH="--universal"
   VERIFY_ARCH="universal"
@@ -43,6 +60,8 @@ else
 fi
 
 echo "▶ electron-builder 打包（icon 用 .icns 绕过 actool）..."
+# verifier 要求目录内只有一个 DMG，先清掉历史产物（含旧版本 DMG 与 blockmap）
+rm -f "$OUT"/*.dmg "$OUT"/*.blockmap "$OUT"/latest-mac.yml
 DSH_ELECTRON_BUILDER_TRAVERSAL_ONLY=1 CSC_IDENTITY_AUTO_DISCOVERY=false \
   ELECTRON_MIRROR="${ELECTRON_MIRROR:-https://npmmirror.com/mirrors/electron/}" \
   node node_modules/electron-builder/cli.js --mac dmg $EB_ARCH \
