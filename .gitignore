@@ -21,3 +21,8 @@ dsh-desktop-next/.desktop-build/
 dsh-plugin-desktop/.desktop-build/
 dsh-plugin-desktop-beta/.desktop-next/
 dsh-plugin-desktop-beta/.desktop-build/
+
+# 本地工具产物（不追踪）
+.local-plugins/
+local-plugins/
+.agents/skills/installing-dsh-plugins/
