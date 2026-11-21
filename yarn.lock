@@ -17041,7 +17041,7 @@ __metadata:
     clsx: "npm:^2.1.1"
     diff: "npm:^9.0.0"
     dsh-community-market: "npm:0.1.0-dev.0"
-    dshmarket: "npm:1.73.15"
+    dshmarket: "npm:1.73.22"
     electron: "npm:44.7.0"
     electron-builder: "npm:26.15.7"
     extract-zip: "npm:2.0.1"
@@ -17297,7 +17297,7 @@ __metadata:
     clsx: "npm:^2.1.1"
     diff: "npm:^9.0.0"
     dsh-community-market: "npm:0.1.0-dev.0"
-    dshmarket: "npm:1.73.15"
+    dshmarket: "npm:1.73.22"
     electron: "npm:44.7.0"
     electron-builder: "npm:26.15.7"
     extract-zip: "npm:2.0.1"
@@ -17544,7 +17544,7 @@ __metadata:
     class-variance-authority: "npm:^0.7.1"
     clsx: "npm:^2.1.1"
     dsh-community-market: "npm:0.1.0-dev.0"
-    dshmarket: "npm:1.73.15"
+    dshmarket: "npm:1.73.22"
     electron: "npm:44.7.0"
     electron-builder: "npm:26.15.7"
     extract-zip: "npm:2.0.1"
@@ -17582,12 +17582,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"dshmarket@npm:1.73.15":
-  version: 1.73.15
-  resolution: "dshmarket@npm:1.73.15"
+"dshmarket@npm:1.73.22":
+  version: 1.73.22
+  resolution: "dshmarket@npm:1.73.22"
   dependencies:
     js-yaml: "npm:^4.3.2"
-    undici: "npm:^7.29.1"
+    undici: "npm:^7.30.2"
   peerDependencies:
     "@deepseek-ai/cordis": ^4.0.1
     "@deepseek-ai/dsh-settings": ^0.1.0-rc.7 || ^0.1.1-rc.2 || ^0.1.2-alpha.2 || ^0.2.0-rc.1 || ^0.2.1-alpha.3 || ^0.2.1-rc.1
@@ -17597,16 +17597,16 @@ __metadata:
       optional: true
     "@deepseek-ai/schemastery":
       optional: true
-  checksum: 10c0/a8422906e961ecb32b0f596529448a0fcb0bb31a1c2075198c21f45d5e9488a79685710b2b933828c079c344c6889a391f6c21e19a3c89ae5dc5393a629cc5f1
+  checksum: 10c0/1f0f59d8cdb78dc095bc0ce1c2c69904a4d11301bf856c314d49280ea22c4fac115a30c5bfdb4cc561e4e9471c7202c10bebac6d0ca5fca5f74bc615d4c007b2
   languageName: node
   linkType: hard
 
-"dshmarket@patch:dshmarket@npm%3A1.73.15#./.yarn/patches/dshmarket-desktop.patch::locator=deepseek-harness-desktop%40workspace%3A.":
-  version: 1.73.15
-  resolution: "dshmarket@patch:dshmarket@npm%3A1.73.15#./.yarn/patches/dshmarket-desktop.patch::version=1.73.15&hash=efabe5&locator=deepseek-harness-desktop%40workspace%3A."
+"dshmarket@patch:dshmarket@npm%3A1.73.22#./.yarn/patches/dshmarket-desktop.patch::locator=deepseek-harness-desktop%40workspace%3A.":
+  version: 1.73.22
+  resolution: "dshmarket@patch:dshmarket@npm%3A1.73.22#./.yarn/patches/dshmarket-desktop.patch::version=1.73.22&hash=f3628d&locator=deepseek-harness-desktop%40workspace%3A."
   dependencies:
     js-yaml: "npm:^4.3.2"
-    undici: "npm:^7.29.1"
+    undici: "npm:^7.30.2"
   peerDependencies:
     "@deepseek-ai/cordis": ^4.0.1
     "@deepseek-ai/dsh-settings": ^0.1.0-rc.7 || ^0.1.1-rc.2 || ^0.1.2-alpha.2 || ^0.2.0-rc.1 || ^0.2.1-alpha.3 || ^0.2.1-rc.1
@@ -17616,7 +17616,7 @@ __metadata:
       optional: true
     "@deepseek-ai/schemastery":
       optional: true
-  checksum: 10c0/86ffc4025e5d2a4fa1e2b73dd5476e7d35bbdf8b495d49b8342cd9bfcd2b7a4a10479e453787fa659bef8895e7486de7e7cc097e2670edacebecaa88fd24d21a
+  checksum: 10c0/9b83a4492159bc8f232cb0bf3f0b6801f0ade0b7522854ebdec23afd6691d77d8029d2487b22b0cab806d19f5cd2bfea2793c79001d5b919048a7e3fe3cd35d1
   languageName: node
   linkType: hard
 
@@ -23700,10 +23700,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:^7.11.0, undici@npm:^7.24.4, undici@npm:^7.25.0, undici@npm:^7.27.2, undici@npm:^7.29.1":
-  version: 7.30.0
-  resolution: "undici@npm:7.30.0"
-  checksum: 10c0/011a321a9198532b0f0504740faa43b9ab8fcc0e4f60104e5c9cb808a61faeb03e4be4aec4f0c65f47913d7c7d9d91591793a6cb9ab843f98ca2c3d711c4a34c
+"undici@npm:^7.11.0, undici@npm:^7.24.4, undici@npm:^7.25.0, undici@npm:^7.27.2, undici@npm:^7.30.2":
+  version: 7.30.2
+  resolution: "undici@npm:7.30.2"
+  checksum: 10c0/806e17f14fb49d2b63be314cf2be68efbe105469118b366d19a3cb6fd6686089220c74c1e8e947e6b337a16ff434c10c3860f3e637db314381c4ce8c071c3daf
   languageName: node
   linkType: hard
 
